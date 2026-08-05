@@ -1,0 +1,312 @@
+/* InmoSmart AI — Estilos ebook A4 */
+/* Paleta: #1B3A5C #FFFFFF #F4F6F8 #C9A962 #2D3748 #718096 */
+
+@page {
+  size: A4;
+  margin: 20mm 22mm 25mm 22mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', 'Open Sans', Helvetica, Arial, sans-serif;
+  font-size: 11pt;
+  line-height: 1.5;
+  color: #2D3748;
+  max-width: 210mm;
+  margin: 0 auto;
+  background: #fff;
+}
+
+/* Portada */
+.cover-page {
+  page-break-after: always;
+  min-height: 257mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(135deg, #1B3A5C 0%, #2d5a87 100%);
+  color: #fff;
+  padding: 40mm 25mm;
+  margin: -20mm -22mm;
+}
+
+.cover-page .brand {
+  font-size: 14pt;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #C9A962;
+  margin-bottom: 15mm;
+}
+
+.cover-page h1 {
+  font-size: 28pt;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0 0 8mm;
+  border: none;
+  color: #fff;
+}
+
+.cover-page .subtitle {
+  font-size: 12pt;
+  opacity: 0.92;
+  max-width: 140mm;
+  margin: 0 auto 10mm;
+}
+
+.cover-page .accent-line {
+  width: 50mm;
+  height: 2px;
+  background: #C9A962;
+  margin: 8mm auto;
+}
+
+.cover-page .meta {
+  font-size: 10pt;
+  opacity: 0.85;
+  margin-top: 15mm;
+}
+
+/* Tipografía */
+h1 {
+  font-size: 22pt;
+  color: #1B3A5C;
+  font-weight: 700;
+  margin-top: 0;
+  page-break-before: always;
+  border-bottom: 3px solid #C9A962;
+  padding-bottom: 4mm;
+}
+
+h1:first-of-type {
+  page-break-before: avoid;
+}
+
+h2 {
+  font-size: 14pt;
+  color: #1B3A5C;
+  font-weight: 600;
+  margin-top: 8mm;
+  border-left: 4px solid #C9A962;
+  padding-left: 4mm;
+}
+
+h3 {
+  font-size: 12pt;
+  color: #1B3A5C;
+  font-weight: 600;
+  margin-top: 6mm;
+}
+
+h4 {
+  font-size: 11pt;
+  color: #2D3748;
+  font-weight: 600;
+}
+
+p {
+  margin: 0 0 4mm;
+  text-align: justify;
+}
+
+/* Listas */
+ul, ol {
+  margin: 0 0 5mm;
+  padding-left: 6mm;
+}
+
+li {
+  margin-bottom: 2mm;
+}
+
+/* Tablas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 5mm 0;
+  font-size: 10pt;
+  page-break-inside: avoid;
+}
+
+thead {
+  background: #1B3A5C;
+  color: #fff;
+}
+
+th {
+  padding: 3mm 4mm;
+  text-align: left;
+  font-weight: 600;
+}
+
+td {
+  padding: 3mm 4mm;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+tbody tr:nth-child(even) {
+  background: #F4F6F8;
+}
+
+/* Blockquotes / avisos */
+blockquote {
+  background: #F4F6F8;
+  border-left: 4px solid #C9A962;
+  margin: 5mm 0;
+  padding: 4mm 6mm;
+  font-size: 10pt;
+  color: #2D3748;
+}
+
+blockquote strong {
+  color: #1B3A5C;
+}
+
+/* Código / prompts */
+pre, code {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 9pt;
+  background: #F4F6F8;
+  border-radius: 2px;
+}
+
+pre {
+  padding: 4mm 5mm;
+  overflow-x: auto;
+  border: 1px solid #E2E8F0;
+  page-break-inside: avoid;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+code {
+  padding: 1px 4px;
+}
+
+/* Checklists */
+input[type="checkbox"] {
+  margin-right: 3mm;
+}
+
+/* Separadores de capítulo */
+.chapter-opener {
+  page-break-before: always;
+  background: #1B3A5C;
+  color: #fff;
+  padding: 30mm 25mm;
+  margin: -20mm -22mm 10mm;
+  text-align: center;
+}
+
+.chapter-opener .chapter-num {
+  font-size: 36pt;
+  color: #C9A962;
+  font-weight: 800;
+}
+
+.chapter-opener h1 {
+  color: #fff;
+  border: none;
+  page-break-before: avoid;
+  font-size: 24pt;
+}
+
+/* Citas destacadas */
+.highlight-quote {
+  font-style: italic;
+  font-size: 13pt;
+  color: #1B3A5C;
+  text-align: center;
+  padding: 8mm 15mm;
+  border-top: 1px solid #C9A962;
+  border-bottom: 1px solid #C9A962;
+  margin: 8mm 0;
+}
+
+/* Recuadros de ejercicio */
+.exercise-box {
+  background: #F4F6F8;
+  border: 1px solid #C9A962;
+  border-radius: 4px;
+  padding: 5mm 6mm;
+  margin: 6mm 0;
+}
+
+.exercise-box h3 {
+  margin-top: 0;
+  color: #C9A962;
+}
+
+/* Pie de página simulado */
+.footer-note {
+  font-size: 8pt;
+  color: #718096;
+  text-align: center;
+  margin-top: 10mm;
+  border-top: 1px solid #E2E8F0;
+  padding-top: 3mm;
+}
+
+/* Enlaces */
+a {
+  color: #1B3A5C;
+}
+
+/* HR */
+hr {
+  border: none;
+  border-top: 1px solid #C9A962;
+  margin: 8mm 0;
+}
+
+/* Evitar cortes feos */
+h2, h3 {
+  page-break-after: avoid;
+}
+
+table, pre, blockquote {
+  page-break-inside: avoid;
+}
+
+/* Disclaimer legal */
+.legal-page {
+  page-break-before: always;
+  font-size: 9pt;
+  color: #718096;
+}
+
+.legal-page h2 {
+  font-size: 12pt;
+}
+
+/* Índice */
+.toc ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc li {
+  border-bottom: 1px dotted #E2E8F0;
+  padding: 2mm 0;
+}
+
+.toc a {
+  text-decoration: none;
+  color: #2D3748;
+}
+
+.toc .chapter {
+  font-weight: 600;
+  color: #1B3A5C;
+}
+
+@media print {
+  body { background: white; }
+  .cover-page { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  thead { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

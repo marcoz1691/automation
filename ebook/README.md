@@ -24,7 +24,8 @@ El producto entrega valor accionable: checklists, plantillas, 110 prompts, guion
   /contenido         → Capítulos, introducción, conclusión, FAQ, glosario (19 archivos)
   /recursos          → Checklists, plantillas, 110 prompts, casos, mensajes WhatsApp
   /diseno            → Guía Canva, portada, identidad visual
-  /marketing         → Página de ventas, precios, lanzamiento, redes, emails
+  /export            → PDF, HTML, paquete Canva, script de build
+  /adaptaciones      → Adaptaciones por país (México, etc.)
   README.md          → Este archivo
   progreso.md        → Tabla de seguimiento del proyecto
 ```
@@ -110,7 +111,26 @@ Detalle en `/marketing/estrategia-precios.md` y `/marketing/pagina-ventas.md`.
 | 9. Estrategia de venta | ✅ Completada |
 | 10. Plan de lanzamiento | ✅ Completada |
 
-**Pendiente antes de publicar:** Diseño visual en Canva, nombre de autor, reseñas reales, adaptación legal por país.
+**Pendiente antes de publicar:** Diseño visual refinado en Canva (opcional; PDF base ya generado), nombre de autor, reseñas reales, adaptación legal por país.
+
+## Exportar PDF y paquete Canva
+
+```bash
+cd ebook/export
+npm install
+npm run build          # PDF + paquete Canva + markdown combinado
+npm run build:pdf      # Solo PDF
+npm run build:canva    # Solo paquete Canva por capítulo
+```
+
+**Archivos generados:**
+- `export/InmoSmart-AI-Ebook-Completo.pdf` — Ebook completo con anexos (~4 MB)
+- `export/ebook-completo.md` — Markdown combinado (9.000+ líneas)
+- `export/ebook-nucleo.md` — Solo capítulos principales
+- `export/canva-paginas/` — Texto por capítulo listo para Canva
+- `export/guia-importacion-canva.md` — Guía paso a paso para Canva
+
+**Adaptación por país:** `/adaptaciones/mexico.md` (portales, documentos, impuestos, checklist cierre).
 
 Consulta `progreso.md` para detalle archivo por archivo.
 

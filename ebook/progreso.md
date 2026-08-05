@@ -14,9 +14,11 @@
 | 8 | Portada y marca | ✅ Completado |
 | 9 | Estrategia de venta | ✅ Completado |
 | 10 | Plan de lanzamiento | ✅ Completado |
+| 11 | Export PDF + paquete Canva | ✅ Completado |
+| 12 | Adaptación México | ✅ Completado |
 
-**Proyecto de contenido:** 100% redactado en Markdown.  
-**Siguiente paso operativo:** Maquetación en Canva + publicación en plataforma de venta.
+**Proyecto de contenido:** 100% redactado. **PDF base generado.**  
+**Siguiente paso operativo:** Refinar maquetación en Canva (opcional) + publicación en plataforma de venta.
 
 ---
 
@@ -68,6 +70,15 @@
 | plan-lanzamiento-30-dias.md | Aprobado | 2026-08-05 | 2026-08-05 | Calendario lanzamiento |
 | contenido-redes.md | Aprobado | 2026-08-05 | 2026-08-05 | 50 ideas + copy redes |
 | secuencia-emails.md | Aprobado | 2026-08-05 | 2026-08-05 | 7 emails + Hotmart/Gumroad/Beacons |
+| **/export** | | | | |
+| build-ebook.js | Aprobado | 2026-08-05 | 2026-08-05 | Script generación PDF/Canva |
+| estilos-ebook.css | Aprobado | 2026-08-05 | 2026-08-05 | Estilos A4 InmoSmart AI |
+| guia-importacion-canva.md | Aprobado | 2026-08-05 | 2026-08-05 | Guía paso a paso Canva |
+| InmoSmart-AI-Ebook-Completo.pdf | Aprobado | 2026-08-05 | 2026-08-05 | ~4 MB, 9000+ líneas |
+| ebook-completo.md | Aprobado | 2026-08-05 | 2026-08-05 | Markdown combinado |
+| canva-paginas/ (20 archivos) | Aprobado | 2026-08-05 | 2026-08-05 | Texto por capítulo |
+| **/adaptaciones** | | | | |
+| mexico.md | Aprobado | 2026-08-05 | 2026-08-05 | Portales, legal, impuestos MX |
 
 ---
 
@@ -102,7 +113,10 @@
 - [x] Guía Canva e identidad visual
 - [x] Estrategia de precios y venta
 - [x] Plan de lanzamiento 30 días
-- [ ] Maquetación visual en Canva
+- [x] PDF exportable generado
+- [x] Paquete Canva por capítulo
+- [x] Adaptación México
+- [ ] Maquetación visual refinada en Canva (opcional)
 - [ ] Nombre y biografía de autor definitivos
 - [ ] Adaptación legal por país objetivo
 - [ ] Reseñas reales post-venta piloto
