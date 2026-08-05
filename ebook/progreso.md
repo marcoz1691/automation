@@ -4,16 +4,19 @@
 
 | Fase | Descripción | Estado global |
 |------|-------------|---------------|
-| 1 | Investigación de mercado | En desarrollo |
-| 2 | Propuesta de valor | En desarrollo |
-| 3 | Estructura e índice del ebook | Para revisar |
-| 4 | Capítulos del ebook | Pendiente |
-| 5 | Recursos premium | Pendiente |
-| 6 | Casos prácticos | Pendiente |
-| 7 | Diseño editorial Canva | Pendiente |
-| 8 | Portada y marca | Pendiente |
-| 9 | Estrategia de venta | Pendiente |
-| 10 | Plan de lanzamiento | Pendiente |
+| 1 | Investigación de mercado | ✅ Aprobado |
+| 2 | Propuesta de valor | ✅ Aprobado |
+| 3 | Estructura e índice del ebook | ✅ Completado |
+| 4 | Capítulos del ebook | ✅ Completado |
+| 5 | Recursos premium | ✅ Completado |
+| 6 | Casos prácticos | ✅ Completado |
+| 7 | Diseño editorial Canva | ✅ Completado |
+| 8 | Portada y marca | ✅ Completado |
+| 9 | Estrategia de venta | ✅ Completado |
+| 10 | Plan de lanzamiento | ✅ Completado |
+
+**Proyecto de contenido:** 100% redactado en Markdown.  
+**Siguiente paso operativo:** Maquetación en Canva + publicación en plataforma de venta.
 
 ---
 
@@ -22,59 +25,88 @@
 | Archivo | Estado | Fecha creación | Fecha revisión | Observaciones |
 |---------|--------|----------------|----------------|---------------|
 | **Raíz** | | | | |
-| README.md | Para revisar | 2026-08-05 | — | Incluye índice propuesto |
-| progreso.md | Para revisar | 2026-08-05 | — | Este archivo |
+| README.md | Aprobado | 2026-08-05 | 2026-08-05 | Actualizado con estado final |
+| progreso.md | Aprobado | 2026-08-05 | 2026-08-05 | Este archivo |
 | **/investigacion** | | | | |
-| investigacion-mercado.md | Para revisar | 2026-08-05 | — | Fase 1 completa |
-| cliente-ideal.md | Para revisar | 2026-08-05 | — | Perfil detallado |
-| propuesta-valor.md | Para revisar | 2026-08-05 | — | Fase 2 completa |
+| investigacion-mercado.md | Aprobado | 2026-08-05 | 2026-08-05 | Fase 1 completa |
+| cliente-ideal.md | Aprobado | 2026-08-05 | 2026-08-05 | Perfil ICP detallado |
+| propuesta-valor.md | Aprobado | 2026-08-05 | 2026-08-05 | Fase 2 + índice |
 | **/contenido** | | | | |
-| 00-portada.md | Pendiente | — | — | Esperando aprobación Fase 1–3 |
-| 01-introduccion.md | Pendiente | — | — | |
-| 02-capitulo-1.md | Pendiente | — | — | Cómo compran propiedades |
-| 03-capitulo-2.md | Pendiente | — | — | Diagnóstico inicial |
-| 04-capitulo-3.md | Pendiente | — | — | Preparación de la propiedad |
-| 05-capitulo-4.md | Pendiente | — | — | Precio competitivo |
-| 06-capitulo-5.md | Pendiente | — | — | Fotografía con celular |
-| 07-capitulo-6.md | Pendiente | — | — | IA para presentación |
-| 08-capitulo-7.md | Pendiente | — | — | Anuncios que generan interés |
-| 09-capitulo-8.md | Pendiente | — | — | ChatGPT + 100 prompts |
-| 10-capitulo-9.md | Pendiente | — | — | Canva y contenido visual |
-| 11-capitulo-10.md | Pendiente | — | — | Dónde publicar |
-| 12-capitulo-11.md | Pendiente | — | — | Calificación de prospectos |
-| 13-capitulo-12.md | Pendiente | — | — | Visitas |
-| 14-capitulo-13.md | Pendiente | — | — | Objeciones y negociación |
-| 15-capitulo-14.md | Pendiente | — | — | Seguridad y cierre |
-| 16-conclusion.md | Pendiente | — | — | |
-| 17-preguntas-frecuentes.md | Pendiente | — | — | |
-| 18-glosario.md | Pendiente | — | — | |
+| 00-portada.md | Aprobado | 2026-08-05 | 2026-08-05 | Portada + legal + disclaimer |
+| 01-introduccion.md | Aprobado | 2026-08-05 | 2026-08-05 | Bienvenida y uso del ebook |
+| 02-capitulo-1.md | Aprobado | 2026-08-05 | 2026-08-05 | Comportamiento del comprador |
+| 03-capitulo-2.md | Aprobado | 2026-08-05 | 2026-08-05 | Diagnóstico inicial |
+| 04-capitulo-3.md | Aprobado | 2026-08-05 | 2026-08-05 | Preparación de la propiedad |
+| 05-capitulo-4.md | Aprobado | 2026-08-05 | 2026-08-05 | Precio competitivo |
+| 06-capitulo-5.md | Aprobado | 2026-08-05 | 2026-08-05 | Fotografía con celular |
+| 07-capitulo-6.md | Aprobado | 2026-08-05 | 2026-08-05 | IA para presentación |
+| 08-capitulo-7.md | Aprobado | 2026-08-05 | 2026-08-05 | Anuncios + plantillas |
+| 09-capitulo-8.md | Aprobado | 2026-08-05 | 2026-08-05 | ChatGPT + 32 prompts inline |
+| 10-capitulo-9.md | Aprobado | 2026-08-05 | 2026-08-05 | Canva y contenido visual |
+| 11-capitulo-10.md | Aprobado | 2026-08-05 | 2026-08-05 | Dónde publicar |
+| 12-capitulo-11.md | Aprobado | 2026-08-05 | 2026-08-05 | Calificación prospectos |
+| 13-capitulo-12.md | Aprobado | 2026-08-05 | 2026-08-05 | Visitas |
+| 14-capitulo-13.md | Aprobado | 2026-08-05 | 2026-08-05 | Objeciones y negociación |
+| 15-capitulo-14.md | Aprobado | 2026-08-05 | 2026-08-05 | Seguridad y cierre |
+| 16-conclusion.md | Aprobado | 2026-08-05 | 2026-08-05 | Plan acción 30 días |
+| 17-preguntas-frecuentes.md | Aprobado | 2026-08-05 | 2026-08-05 | 35 FAQ |
+| 18-glosario.md | Aprobado | 2026-08-05 | 2026-08-05 | 50+ términos |
 | **/recursos** | | | | |
-| checklists.md | Pendiente | — | — | 6 checklists |
-| plantillas.md | Pendiente | — | — | 8+ plantillas |
-| mensajes-whatsapp.md | Pendiente | — | — | 12 mensajes listos |
-| prompts-ia.md | Pendiente | — | — | 100+ prompts |
-| calendario-contenido.md | Pendiente | — | — | Plan 30 días |
-| casos-practicos.md | Pendiente | — | — | 4 casos simulados |
+| checklists.md | Aprobado | 2026-08-05 | 2026-08-05 | 6 checklists |
+| plantillas.md | Aprobado | 2026-08-05 | 2026-08-05 | 9 plantillas + 5 guiones |
+| mensajes-whatsapp.md | Aprobado | 2026-08-05 | 2026-08-05 | 12 mensajes listos |
+| prompts-ia.md | Aprobado | 2026-08-05 | 2026-08-05 | 110 prompts |
+| calendario-contenido.md | Aprobado | 2026-08-05 | 2026-08-05 | Plan 30 días promoción |
+| casos-practicos.md | Aprobado | 2026-08-05 | 2026-08-05 | 4 casos simulados |
 | **/diseno** | | | | |
-| guia-canva.md | Pendiente | — | — | Especificaciones editoriales |
-| portada.md | Pendiente | — | — | Textos de portada/contraportada |
-| identidad-visual.md | Pendiente | — | — | Marca InmoSmart AI |
+| guia-canva.md | Aprobado | 2026-08-05 | 2026-08-05 | Guía editorial A4 |
+| portada.md | Aprobado | 2026-08-05 | 2026-08-05 | Textos portada/contraportada |
+| identidad-visual.md | Aprobado | 2026-08-05 | 2026-08-05 | Marca InmoSmart AI |
 | **/marketing** | | | | |
-| pagina-ventas.md | Pendiente | — | — | Copy de landing page |
-| estrategia-precios.md | Pendiente | — | — | Básica vs. premium |
-| plan-lanzamiento-30-dias.md | Pendiente | — | — | Calendario de lanzamiento |
-| contenido-redes.md | Pendiente | — | — | Posts, reels, stories |
-| secuencia-emails.md | Pendiente | — | — | Email marketing |
+| pagina-ventas.md | Aprobado | 2026-08-05 | 2026-08-05 | Landing page completa |
+| estrategia-precios.md | Aprobado | 2026-08-05 | 2026-08-05 | Esencial vs. Completa |
+| plan-lanzamiento-30-dias.md | Aprobado | 2026-08-05 | 2026-08-05 | Calendario lanzamiento |
+| contenido-redes.md | Aprobado | 2026-08-05 | 2026-08-05 | 50 ideas + copy redes |
+| secuencia-emails.md | Aprobado | 2026-08-05 | 2026-08-05 | 7 emails + Hotmart/Gumroad/Beacons |
 
 ---
 
-## Próximos pasos (pendientes de aprobación)
+## Métricas del contenido
 
-- [ ] Aprobación de investigación de mercado
-- [ ] Aprobación de perfil de cliente ideal
-- [ ] Aprobación de propuesta de valor
-- [ ] Aprobación del índice final
-- [ ] Inicio de redacción de capítulos (Fase 4)
+| Métrica | Valor |
+|---------|-------|
+| Archivos totales | 38 |
+| Líneas de contenido (aprox.) | ~11.700 |
+| Capítulos | 14 |
+| Prompts de IA | 110 |
+| Checklists | 6 |
+| Plantillas | 9 |
+| Guiones | 5 |
+| Mensajes WhatsApp | 12 |
+| Casos simulados | 4 |
+| FAQ vendedor | 35 |
+| Términos glosario | 50+ |
+| Ideas publicaciones redes | 50 |
+| Páginas estimadas en Canva | 80–120 |
+
+---
+
+## Checklist pre-publicación
+
+- [x] Investigación de mercado
+- [x] Cliente ideal
+- [x] Propuesta de valor
+- [x] Índice y capítulos
+- [x] Recursos premium
+- [x] Casos simulados
+- [x] Guía Canva e identidad visual
+- [x] Estrategia de precios y venta
+- [x] Plan de lanzamiento 30 días
+- [ ] Maquetación visual en Canva
+- [ ] Nombre y biografía de autor definitivos
+- [ ] Adaptación legal por país objetivo
+- [ ] Reseñas reales post-venta piloto
+- [ ] Configuración en Hotmart/Gumroad/Beacons
 
 ---
 
