@@ -6,6 +6,7 @@
   "scripts": {
     "build": "node build-ebook.js",
     "build:pdf": "node build-ebook.js --pdf",
+    "build:ecuador": "node build-ebook.js --pais ecuador --pdf",
     "build:canva": "node build-ebook.js --canva"
   },
   "keywords": [],

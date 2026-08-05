@@ -16,6 +16,7 @@
 | 10 | Plan de lanzamiento | ✅ Completado |
 | 11 | Export PDF + paquete Canva | ✅ Completado |
 | 12 | Adaptación México | ✅ Completado |
+| 13 | Adaptaciones multi-país (EC principal) | ✅ Completado |
 
 **Proyecto de contenido:** 100% redactado. **PDF base generado.**  
 **Siguiente paso operativo:** Refinar maquetación en Canva (opcional) + publicación en plataforma de venta.
@@ -74,11 +75,18 @@
 | build-ebook.js | Aprobado | 2026-08-05 | 2026-08-05 | Script generación PDF/Canva |
 | estilos-ebook.css | Aprobado | 2026-08-05 | 2026-08-05 | Estilos A4 InmoSmart AI |
 | guia-importacion-canva.md | Aprobado | 2026-08-05 | 2026-08-05 | Guía paso a paso Canva |
-| InmoSmart-AI-Ebook-Completo.pdf | Aprobado | 2026-08-05 | 2026-08-05 | ~4 MB, 9000+ líneas |
+| InmoSmart-AI-Ebook-Completo.pdf | Aprobado | 2026-08-05 | 2026-08-05 | Todos los países |
+| InmoSmart-AI-Ebook-Ecuador.pdf | Aprobado | 2026-08-05 | 2026-08-05 | **Versión mercado EC** |
+| ebook-ecuador.md | Aprobado | 2026-08-05 | 2026-08-05 | Markdown Ecuador |
 | ebook-completo.md | Aprobado | 2026-08-05 | 2026-08-05 | Markdown combinado |
 | canva-paginas/ (20 archivos) | Aprobado | 2026-08-05 | 2026-08-05 | Texto por capítulo |
 | **/adaptaciones** | | | | |
-| mexico.md | Aprobado | 2026-08-05 | 2026-08-05 | Portales, legal, impuestos MX |
+| mexico.md | Aprobado | 2026-08-05 | 2026-08-05 | Anexo complementario MX |
+| ecuador.md | Aprobado | 2026-08-05 | 2026-08-05 | **Mercado principal** — Plusvalía, USD, notaría |
+| colombia.md | Aprobado | 2026-08-05 | 2026-08-05 | Finca Raíz, tradición y libertad |
+| peru.md | Aprobado | 2026-08-05 | 2026-08-05 | Adondevivir, SUNARP |
+| chile.md | Aprobado | 2026-08-05 | 2026-08-05 | PortalInmobiliario, CBR |
+| README.md | Aprobado | 2026-08-05 | 2026-08-05 | Índice adaptaciones |
 
 ---
 
@@ -115,7 +123,7 @@
 - [x] Plan de lanzamiento 30 días
 - [x] PDF exportable generado
 - [x] Paquete Canva por capítulo
-- [x] Adaptación México
+- [x] Adaptación Ecuador (principal) + Colombia, Perú, Chile, México
 - [ ] Maquetación visual refinada en Canva (opcional)
 - [ ] Nombre y biografía de autor definitivos
 - [ ] Adaptación legal por país objetivo

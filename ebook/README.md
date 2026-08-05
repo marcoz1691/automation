@@ -115,22 +115,32 @@ Detalle en `/marketing/estrategia-precios.md` y `/marketing/pagina-ventas.md`.
 
 ## Exportar PDF y paquete Canva
 
+**Mercado principal: 🇪🇨 Ecuador** — ver `adaptaciones/ecuador.md`
+
+| Archivo | País |
+|---------|------|
+| `adaptaciones/ecuador.md` | **Ecuador** (principal) |
+| `adaptaciones/mexico.md` | México |
+| `adaptaciones/colombia.md` | Colombia |
+| `adaptaciones/peru.md` | Perú |
+| `adaptaciones/chile.md` | Chile |
+
+Guía: `adaptaciones/README.md`
+
 ```bash
 cd ebook/export
 npm install
-npm run build          # PDF + paquete Canva + markdown combinado
-npm run build:pdf      # Solo PDF
-npm run build:canva    # Solo paquete Canva por capítulo
+npm run build              # PDF Ecuador + PDF completo + Canva
+npm run build:ecuador      # Solo PDF versión Ecuador
+npm run build:canva        # Solo paquete Canva
 ```
 
 **Archivos generados:**
-- `export/InmoSmart-AI-Ebook-Completo.pdf` — Ebook completo con anexos (~4 MB)
-- `export/ebook-completo.md` — Markdown combinado (9.000+ líneas)
-- `export/ebook-nucleo.md` — Solo capítulos principales
-- `export/canva-paginas/` — Texto por capítulo listo para Canva
+- `export/InmoSmart-AI-Ebook-Ecuador.pdf` — **Recomendado para vender en Ecuador**
+- `export/InmoSmart-AI-Ebook-Completo.pdf` — Todos los países + anexos
+- `export/ebook-ecuador.md` / `ebook-completo.md` — Markdown combinado
+- `export/canva-paginas/` — Capítulos + `adaptacion-ecuador-canva.md`
 - `export/guia-importacion-canva.md` — Guía paso a paso para Canva
-
-**Adaptación por país:** `/adaptaciones/mexico.md` (portales, documentos, impuestos, checklist cierre).
 
 Consulta `progreso.md` para detalle archivo por archivo.
 

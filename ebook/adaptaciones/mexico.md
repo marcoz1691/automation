@@ -3,7 +3,7 @@
 **Producto:** Vende tu Propiedad Más Rápido con Inteligencia Artificial  
 **País:** México  
 **Versión:** 1.0 · Agosto 2026  
-**Uso:** Complemento del ebook general. Sustituye o complementa las secciones marcadas `[ADAPTAR AL PAÍS]`.
+**Uso:** Anexo complementario. **Mercado principal del producto: Ecuador** (`ecuador.md`). Sustituye secciones `[ADAPTAR AL PAÍS]` para lectores en México.
 
 > **Aviso:** Esta adaptación es orientativa y educativa. Las leyes, impuestos y trámites cambian por entidad federativa y municipio. Consulta siempre con notario, abogado inmobiliario y contador antes de firmar o recibir pagos.
 

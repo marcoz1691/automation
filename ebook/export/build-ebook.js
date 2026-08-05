@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 /**
  * InmoSmart AI — Generador de ebook PDF/HTML
- * Uso: node build-ebook.js [--html-only] [--pdf] [--canva]
+ * Uso:
+ *   node build-ebook.js              → PDF completo + Canva + todos los países
+ *   node build-ebook.js --pais ecuador → PDF enfocado Ecuador (mercado principal)
+ *   node build-ebook.js --pdf        → Solo PDF
+ *   node build-ebook.js --canva      → Solo paquete Canva
  */
 
 const fs = require('fs');
@@ -35,13 +39,21 @@ const MAIN_FILES = [
   '18-glosario.md',
 ];
 
-const RECursos_ANEXO = [
+const RECURSOS_ANEXO = [
   { file: '../recursos/checklists.md', title: 'Anexo A — Checklists' },
   { file: '../recursos/plantillas.md', title: 'Anexo B — Plantillas' },
   { file: '../recursos/prompts-ia.md', title: 'Anexo C — Prompts de IA (110)' },
   { file: '../recursos/mensajes-whatsapp.md', title: 'Anexo D — Mensajes WhatsApp' },
   { file: '../recursos/casos-practicos.md', title: 'Anexo E — Casos prácticos simulados' },
-  { file: '../adaptaciones/mexico.md', title: 'Anexo F — Adaptación México' },
+];
+
+/** Ecuador primero — mercado principal */
+const ADAPTACIONES = [
+  { file: '../adaptaciones/ecuador.md', title: 'Anexo F — Adaptación Ecuador ⭐ (mercado principal)', code: 'ecuador' },
+  { file: '../adaptaciones/mexico.md', title: 'Anexo G — Adaptación México', code: 'mexico' },
+  { file: '../adaptaciones/colombia.md', title: 'Anexo H — Adaptación Colombia', code: 'colombia' },
+  { file: '../adaptaciones/peru.md', title: 'Anexo I — Adaptación Perú', code: 'peru' },
+  { file: '../adaptaciones/chile.md', title: 'Anexo J — Adaptación Chile', code: 'chile' },
 ];
 
 function readFile(relPath) {
@@ -54,7 +66,13 @@ function stripMetaBlock(content) {
   return content.replace(/^#\s+Capítulo[\s\S]*?---\n\n/m, '').trim();
 }
 
-function buildMarkdown(includeAnexos = true) {
+function getPaisArg(args) {
+  const idx = args.indexOf('--pais');
+  if (idx === -1) return 'all';
+  return args[idx + 1] || 'all';
+}
+
+function buildMarkdown({ includeRecursos = true, pais = 'all' } = {}) {
   const parts = [];
 
   parts.push(`---
@@ -67,18 +85,34 @@ author: InmoSmart AI
   for (const file of MAIN_FILES) {
     const content = readFile(path.join(CONTENIDO, file));
     if (content) {
-      parts.push(`\n\n---\n\n`);
+      parts.push('\n\n---\n\n');
       parts.push(stripMetaBlock(content));
     }
   }
 
-  if (includeAnexos) {
-    parts.push(`\n\n# Recursos adicionales\n\n`);
-    for (const anexo of RECursos_ANEXO) {
+  if (includeRecursos) {
+    parts.push('\n\n# Recursos adicionales\n\n');
+    for (const anexo of RECURSOS_ANEXO) {
       const content = readFile(anexo.file);
       if (content) {
         parts.push(`\n\n---\n\n## ${anexo.title}\n\n`);
         parts.push(content.replace(/^#\s+.+\n\n/m, ''));
+      }
+    }
+
+    const adaptaciones =
+      pais === 'all'
+        ? ADAPTACIONES
+        : ADAPTACIONES.filter((a) => a.code === pais);
+
+    if (adaptaciones.length) {
+      parts.push('\n\n# Adaptaciones por país\n\n');
+      for (const anexo of adaptaciones) {
+        const content = readFile(anexo.file);
+        if (content) {
+          parts.push(`\n\n---\n\n## ${anexo.title}\n\n`);
+          parts.push(content.replace(/^#\s+.+\n\n/m, ''));
+        }
       }
     }
   }
@@ -86,10 +120,9 @@ author: InmoSmart AI
   return parts.join('');
 }
 
-function buildCanvaPages(md) {
+function buildCanvaPages() {
   if (!fs.existsSync(CANVA_DIR)) fs.mkdirSync(CANVA_DIR, { recursive: true });
 
-  const chapters = md.split(/\n---\n/);
   let index = 0;
 
   for (const file of MAIN_FILES) {
@@ -101,6 +134,7 @@ function buildCanvaPages(md) {
 
 > **Instrucciones:** Crear página A4 (210×297 mm) en Canva. Copiar secciones una por una.
 > **Paleta:** Azul #1B3A5C · Dorado #C9A962 · Gris #F4F6F8 · Texto #2D3748
+> **Mercado principal:** Ecuador · Precios en USD
 > **Fuentes:** Montserrat Bold (títulos) · Open Sans (cuerpo)
 
 ---
@@ -113,13 +147,23 @@ function buildCanvaPages(md) {
     );
   }
 
-  // Recursos resumidos para Canva
+  // Adaptación Ecuador para Canva
+  const ecuador = readFile('../adaptaciones/ecuador.md');
+  if (ecuador) {
+    fs.writeFileSync(
+      path.join(CANVA_DIR, 'adaptacion-ecuador-canva.md'),
+      `# Paquete Canva — Adaptación Ecuador (mercado principal)\n\n${ecuador}`,
+      'utf8'
+    );
+  }
+
   const resumenRecursos = `# Paquete Canva — Recursos premium
 
 Los recursos completos están en /recursos/. Para Canva:
 1. Exportar checklists como páginas tipo «lista con iconos»
 2. Exportar plantillas como páginas editables duplicables
-3. Prompts: usar fuente monospace 9-10 pt en cajas grises (#F4F6F8)
+3. Prompts: fuente monospace 9-10 pt en cajas grises (#F4F6F8)
+4. Adaptación Ecuador: ver adaptacion-ecuador-canva.md
 
 Consultar guia-canva.md para especificaciones detalladas.
 `;
@@ -148,40 +192,57 @@ async function generatePdf(mdPath, pdfPath) {
 async function main() {
   const args = process.argv.slice(2);
   const htmlOnly = args.includes('--html-only');
-  const pdfOnly = args.includes('--pdf') || args.length === 0;
-  const canvaOnly = args.includes('--canva');
+  const generatePdfFlag = args.includes('--pdf') || args.length === 0;
+  const canvaFlag = args.includes('--canva') || args.length === 0;
+  const pais = getPaisArg(args);
 
-  console.log('📘 InmoSmart AI — Generador de ebook\n');
+  console.log('📘 InmoSmart AI — Generador de ebook');
+  console.log(`   Mercado principal: Ecuador 🇪🇨\n`);
 
-  const md = buildMarkdown(true);
-  const mdPath = path.join(EXPORT, 'ebook-completo.md');
-  fs.writeFileSync(mdPath, md, 'utf8');
-  console.log(`✓ Markdown combinado: ${mdPath} (${md.split('\n').length} líneas)`);
+  // Markdown completo (todos los países)
+  const mdCompleto = buildMarkdown({ includeRecursos: true, pais: 'all' });
+  const mdCompletoPath = path.join(EXPORT, 'ebook-completo.md');
+  fs.writeFileSync(mdCompletoPath, mdCompleto, 'utf8');
+  console.log(`✓ Markdown completo: ${mdCompletoPath} (${mdCompleto.split('\n').length} líneas)`);
 
-  if (canvaOnly || args.length === 0) {
-    const count = buildCanvaPages(md);
-    console.log(`✓ Paquete Canva: ${count} capítulos en ${CANVA_DIR}`);
-  }
+  // Markdown Ecuador (mercado principal)
+  const mdEcuador = buildMarkdown({ includeRecursos: true, pais: 'ecuador' });
+  const mdEcuadorPath = path.join(EXPORT, 'ebook-ecuador.md');
+  fs.writeFileSync(mdEcuadorPath, mdEcuador, 'utf8');
+  console.log(`✓ Markdown Ecuador: ${mdEcuadorPath} (${mdEcuador.split('\n').length} líneas)`);
 
-  if (pdfOnly && !htmlOnly) {
-    const pdfPath = path.join(EXPORT, 'InmoSmart-AI-Ebook-Completo.pdf');
-    console.log('⏳ Generando PDF (puede tardar varios minutos)...');
-    try {
-      await generatePdf(mdPath, pdfPath);
-      const stats = fs.statSync(pdfPath);
-      console.log(`✓ PDF generado: ${pdfPath} (${(stats.size / 1024 / 1024).toFixed(2)} MB)`);
-    } catch (err) {
-      console.error('✗ Error generando PDF:', err.message);
-      console.log('  Tip: El markdown combinado está disponible para importar manualmente.');
-      process.exit(1);
-    }
-  }
-
-  // Versión sin anexos (más liviana para lectura principal)
-  const mdCore = buildMarkdown(false);
+  // Núcleo sin anexos
+  const mdCore = buildMarkdown({ includeRecursos: false });
   const mdCorePath = path.join(EXPORT, 'ebook-nucleo.md');
   fs.writeFileSync(mdCorePath, mdCore, 'utf8');
   console.log(`✓ Núcleo sin anexos: ${mdCorePath}`);
+
+  if (canvaFlag) {
+    const count = buildCanvaPages();
+    console.log(`✓ Paquete Canva: ${count} capítulos + adaptación Ecuador`);
+  }
+
+  if (generatePdfFlag && !htmlOnly) {
+    const builds =
+      pais === 'ecuador'
+        ? [{ md: mdEcuadorPath, pdf: 'InmoSmart-AI-Ebook-Ecuador.pdf' }]
+        : [
+            { md: mdEcuadorPath, pdf: 'InmoSmart-AI-Ebook-Ecuador.pdf' },
+            { md: mdCompletoPath, pdf: 'InmoSmart-AI-Ebook-Completo.pdf' },
+          ];
+
+    for (const { md, pdf } of builds) {
+      const pdfPath = path.join(EXPORT, pdf);
+      console.log(`⏳ Generando ${pdf}...`);
+      try {
+        await generatePdf(md, pdfPath);
+        const stats = fs.statSync(pdfPath);
+        console.log(`✓ ${pdf} (${(stats.size / 1024 / 1024).toFixed(2)} MB)`);
+      } catch (err) {
+        console.error(`✗ Error en ${pdf}:`, err.message);
+      }
+    }
+  }
 
   console.log('\n✅ Exportación completada.');
 }

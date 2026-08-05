@@ -2,6 +2,7 @@
 
 > **Instrucciones:** Crear página A4 (210×297 mm) en Canva. Copiar secciones una por una.
 > **Paleta:** Azul #1B3A5C · Dorado #C9A962 · Gris #F4F6F8 · Texto #2D3748
+> **Mercado principal:** Ecuador · Precios en USD
 > **Fuentes:** Montserrat Bold (títulos) · Open Sans (cuerpo)
 
 ---
