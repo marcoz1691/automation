@@ -1,0 +1,19 @@
+{
+  "name": "export",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "node build-ebook.js",
+    "build:pdf": "node build-ebook.js --pdf",
+    "build:ecuador": "node build-ebook.js --pais ecuador --pdf",
+    "build:canva": "node build-ebook.js --canva"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "marked": "^18.0.9",
+    "md-to-pdf": "^5.2.5"
+  }
+}
