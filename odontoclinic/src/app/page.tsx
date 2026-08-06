@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Calendar, Clock, Shield, Sparkles } from "lucide-react";
+import { formatClinicHoursSummary } from "@/lib/constants";
 import { prisma } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
@@ -87,9 +88,9 @@ export default async function HomePage() {
             <div>
               <h2 className="text-2xl font-bold text-primary">Horarios de atención</h2>
               <ul className="mt-4 space-y-2 text-secondary">
-                <li>Lunes a Viernes: 8:00 – 18:00</li>
-                <li>Sábado: 8:00 – 13:00</li>
-                <li>Domingo: Cerrado</li>
+                {formatClinicHoursSummary().split("\n").map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
               </ul>
             </div>
             <div>

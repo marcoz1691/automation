@@ -12,7 +12,7 @@ import {
 } from "date-fns";
 import { es } from "date-fns/locale";
 import { prisma } from "./db";
-import { CLINIC_HOURS } from "./constants";
+import { CLINIC_HOURS, type DaySchedule } from "./constants";
 
 const DAY_KEYS = [
   "sunday",
@@ -26,29 +26,27 @@ const DAY_KEYS = [
 
 type DayKey = (typeof DAY_KEYS)[number];
 
-function getDayHours(date: Date) {
+function getDaySchedule(date: Date): DaySchedule {
   const key = DAY_KEYS[getDay(date)] as DayKey;
   return CLINIC_HOURS[key];
 }
 
-export function getAvailableSlots(
+function getSlotsForPeriod(
   date: Date,
+  period: { open: string; close: string },
   durationMin: number,
   bookedRanges: { start: Date; end: Date }[],
-  slotInterval = 30
+  slotInterval: number
 ): string[] {
-  const hours = getDayHours(date);
-  if (!hours) return [];
-
-  const [openH, openM] = hours.open.split(":").map(Number);
-  const [closeH, closeM] = hours.close.split(":").map(Number);
+  const [openH, openM] = period.open.split(":").map(Number);
+  const [closeH, closeM] = period.close.split(":").map(Number);
 
   let cursor = setMinutes(setHours(startOfDay(date), openH), openM);
-  const dayEnd = setMinutes(setHours(startOfDay(date), closeH), closeM);
+  const periodEnd = setMinutes(setHours(startOfDay(date), closeH), closeM);
   const slots: string[] = [];
   const now = new Date();
 
-  while (addMinutes(cursor, durationMin) <= dayEnd) {
+  while (addMinutes(cursor, durationMin) <= periodEnd) {
     const slotEnd = addMinutes(cursor, durationMin);
     const overlaps = bookedRanges.some(
       (b) => cursor < b.end && slotEnd > b.start
@@ -62,6 +60,20 @@ export function getAvailableSlots(
   }
 
   return slots;
+}
+
+export function getAvailableSlots(
+  date: Date,
+  durationMin: number,
+  bookedRanges: { start: Date; end: Date }[],
+  slotInterval = 30
+): string[] {
+  const schedule = getDaySchedule(date);
+  if (!schedule) return [];
+
+  return schedule.periods.flatMap((period) =>
+    getSlotsForPeriod(date, period, durationMin, bookedRanges, slotInterval)
+  );
 }
 
 export async function getAvailability(params: {
@@ -104,6 +116,7 @@ export async function getAvailability(params: {
       return {
         dentistId: dentist.id,
         dentistName: dentist.name,
+        specialty: dentist.specialty,
         slots,
       };
     })
@@ -150,4 +163,18 @@ export function canModifyAppointment(
 ): boolean {
   const deadline = addMinutes(new Date(), policyHours * 60);
   return isAfter(appointmentStart, deadline);
+}
+
+export function isWithinClinicHours(start: Date, end: Date): boolean {
+  const schedule = getDaySchedule(start);
+  if (!schedule) return false;
+
+  const day = startOfDay(start);
+  return schedule.periods.some((period) => {
+    const [openH, openM] = period.open.split(":").map(Number);
+    const [closeH, closeM] = period.close.split(":").map(Number);
+    const periodStart = setMinutes(setHours(day, openH), openM);
+    const periodEnd = setMinutes(setHours(day, closeH), closeM);
+    return start >= periodStart && end <= periodEnd;
+  });
 }

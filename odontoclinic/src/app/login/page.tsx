@@ -69,6 +69,7 @@ export default function LoginPage() {
           <p>admin@odontoclinic.com / admin123</p>
           <p>recepcion@odontoclinic.com / recepcion123</p>
           <p>dr.zurita@odontoclinic.com / doctor123</p>
+          <p>dr.proano@odontoclinic.com / doctor123</p>
         </div>
       </div>
     </div>

@@ -66,7 +66,7 @@ const createSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     const body = createSchema.parse(await request.json());
-    const { parseDateTime, isSlotAvailable } = await import("@/lib/availability");
+    const { parseDateTime, isSlotAvailable, isWithinClinicHours } = await import("@/lib/availability");
     const { sendConfirmation } = await import("@/lib/messages");
 
     const start = parseDateTime(body.date, body.time);
@@ -76,6 +76,14 @@ export async function POST(request: NextRequest) {
     }
 
     const end = new Date(start.getTime() + service.durationMin * 60 * 1000);
+
+    if (!isWithinClinicHours(start, end)) {
+      return NextResponse.json(
+        { error: "Fuera de horario de atención (9:00–12:00 y 15:00–19:00)" },
+        { status: 409 }
+      );
+    }
+
     const available = await isSlotAvailable(body.dentistId, start, end);
     if (!available) {
       return NextResponse.json({ error: "Horario no disponible" }, { status: 409 });

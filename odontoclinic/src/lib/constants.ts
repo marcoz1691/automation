@@ -1,11 +1,57 @@
-export const CLINIC_HOURS = {
-  monday: { open: "08:00", close: "18:00" },
-  tuesday: { open: "08:00", close: "18:00" },
-  wednesday: { open: "08:00", close: "18:00" },
-  thursday: { open: "08:00", close: "18:00" },
-  friday: { open: "08:00", close: "18:00" },
-  saturday: { open: "08:00", close: "13:00" },
+export type TimePeriod = { open: string; close: string };
+export type DaySchedule = { periods: TimePeriod[] } | null;
+
+export const CLINIC_HOURS: Record<string, DaySchedule> = {
+  monday: {
+    periods: [
+      { open: "09:00", close: "12:00" },
+      { open: "15:00", close: "19:00" },
+    ],
+  },
+  tuesday: {
+    periods: [
+      { open: "09:00", close: "12:00" },
+      { open: "15:00", close: "19:00" },
+    ],
+  },
+  wednesday: {
+    periods: [
+      { open: "09:00", close: "12:00" },
+      { open: "15:00", close: "19:00" },
+    ],
+  },
+  thursday: {
+    periods: [
+      { open: "09:00", close: "12:00" },
+      { open: "15:00", close: "19:00" },
+    ],
+  },
+  friday: {
+    periods: [
+      { open: "09:00", close: "12:00" },
+      { open: "15:00", close: "19:00" },
+    ],
+  },
+  saturday: null,
   sunday: null,
+};
+
+export const CLINIC_HOURS_SUMMARY =
+  "Lunes a Viernes: 9:00 – 12:00 y 15:00 – 19:00";
+
+export function formatClinicHoursSummary(): string {
+  return `${CLINIC_HOURS_SUMMARY}\nSábado y Domingo: Cerrado`;
+}
+
+export const DENTISTS = {
+  robertoZurita: {
+    name: "Dr. Roberto Zurita",
+    specialty: "Rehabilitación oral",
+  },
+  robertoZuritaProano: {
+    name: "Dr. Roberto Zurita Proaño",
+    specialty: "Odontología general",
+  },
 } as const;
 
 export const DEFAULT_SETTINGS = {
@@ -21,10 +67,13 @@ export const DEFAULT_SETTINGS = {
   paymentMethods: "Efectivo, tarjeta de crédito/débito, transferencia",
   hoursJson: JSON.stringify(CLINIC_HOURS),
   faqJson: JSON.stringify({
-    insurance: "Sí, trabajamos con los principales seguros odontológicos. Consulta disponibilidad al agendar.",
+    insurance:
+      "Sí, trabajamos con los principales seguros odontológicos. Consulta disponibilidad al agendar.",
     payment: "Aceptamos efectivo, tarjetas de crédito/débito y transferencia bancaria.",
-    firstVisit: "Trae tu cédula, historial dental previo si lo tienes, y lista de medicamentos actuales.",
-    emergencies: "Atendemos urgencias dentales en horario de consulta. Para dolor agudo, llama o escríbenos por WhatsApp.",
+    firstVisit:
+      "Trae tu cédula, historial dental previo si lo tienes, y lista de medicamentos actuales.",
+    emergencies:
+      "Atendemos urgencias dentales en horario de consulta. Para dolor agudo, llama o escríbenos por WhatsApp.",
   }),
 };
 
@@ -60,8 +109,15 @@ export const DEMO_USERS = [
   {
     email: "dr.zurita@odontoclinic.com",
     password: "doctor123",
-    name: "Dr. Roberto Zurita",
+    name: DENTISTS.robertoZurita.name,
     role: "ODONTOLOGO" as const,
-    dentistName: "Dr. Roberto Zurita",
+    dentistKey: "robertoZurita" as const,
+  },
+  {
+    email: "dr.proano@odontoclinic.com",
+    password: "doctor123",
+    name: DENTISTS.robertoZuritaProano.name,
+    role: "ODONTOLOGO" as const,
+    dentistKey: "robertoZuritaProano" as const,
   },
 ];

@@ -2,7 +2,7 @@ import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { addDays, setHours, setMinutes } from "date-fns";
-import { DEFAULT_SETTINGS, DEMO_USERS } from "../src/lib/constants";
+import { DEFAULT_SETTINGS, DEMO_USERS, DENTISTS } from "../src/lib/constants";
 
 const prisma = new PrismaClient();
 
@@ -26,23 +26,28 @@ async function main() {
     },
   });
 
-  const schedule = JSON.stringify(DEFAULT_SETTINGS.hoursJson);
+  const scheduleJson = DEFAULT_SETTINGS.hoursJson;
 
   const dentist1 = await prisma.dentist.create({
     data: {
-      name: "Dr. Roberto Zurita",
-      specialty: "Odontología general",
-      schedule: DEFAULT_SETTINGS.hoursJson,
+      name: DENTISTS.robertoZurita.name,
+      specialty: DENTISTS.robertoZurita.specialty,
+      schedule: scheduleJson,
     },
   });
 
   const dentist2 = await prisma.dentist.create({
     data: {
-      name: "Dra. Ana Morales",
-      specialty: "Ortodoncia",
-      schedule: DEFAULT_SETTINGS.hoursJson,
+      name: DENTISTS.robertoZuritaProano.name,
+      specialty: DENTISTS.robertoZuritaProano.specialty,
+      schedule: scheduleJson,
     },
   });
+
+  const dentistByKey = {
+    robertoZurita: dentist1,
+    robertoZuritaProano: dentist2,
+  };
 
   const services = await Promise.all([
     prisma.service.create({
@@ -101,12 +106,20 @@ async function main() {
         description: "Atención de urgencias en horario de consulta",
       },
     }),
+    prisma.service.create({
+      data: {
+        name: "Rehabilitación oral",
+        durationMin: 60,
+        price: 150,
+        description: "Evaluación y plan de rehabilitación oral",
+      },
+    }),
   ]);
 
   for (const demo of DEMO_USERS) {
     const dentistId =
-      demo.role === "ODONTOLOGO"
-        ? dentist1.id
+      "dentistKey" in demo
+        ? dentistByKey[demo.dentistKey as keyof typeof dentistByKey]?.id
         : undefined;
 
     await prisma.user.create({
@@ -155,7 +168,7 @@ async function main() {
     {
       patient: patients[0],
       dentist: dentist1,
-      service: services[1],
+      service: services[7],
       dayOffset: 0,
       hour: 9,
       minute: 0,
@@ -163,7 +176,7 @@ async function main() {
     },
     {
       patient: patients[1],
-      dentist: dentist1,
+      dentist: dentist2,
       service: services[0],
       dayOffset: 0,
       hour: 10,
@@ -173,7 +186,7 @@ async function main() {
     {
       patient: patients[2],
       dentist: dentist2,
-      service: services[4],
+      service: services[1],
       dayOffset: 0,
       hour: 11,
       minute: 0,
@@ -184,8 +197,8 @@ async function main() {
       dentist: dentist1,
       service: services[6],
       dayOffset: 0,
-      hour: 14,
-      minute: 30,
+      hour: 15,
+      minute: 0,
       status: "PENDIENTE" as const,
     },
     {
@@ -202,13 +215,13 @@ async function main() {
       dentist: dentist1,
       service: services[2],
       dayOffset: 1,
-      hour: 15,
+      hour: 16,
       minute: 0,
       status: "CONFIRMADA" as const,
     },
     {
       patient: patients[2],
-      dentist: dentist1,
+      dentist: dentist2,
       service: services[3],
       dayOffset: 2,
       hour: 10,
@@ -217,8 +230,8 @@ async function main() {
     },
     {
       patient: patients[3],
-      dentist: dentist2,
-      service: services[4],
+      dentist: dentist1,
+      service: services[7],
       dayOffset: 3,
       hour: 11,
       minute: 30,
@@ -226,7 +239,7 @@ async function main() {
     },
     {
       patient: patients[0],
-      dentist: dentist1,
+      dentist: dentist2,
       service: services[0],
       dayOffset: -2,
       hour: 16,

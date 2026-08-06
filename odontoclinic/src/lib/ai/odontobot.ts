@@ -10,6 +10,7 @@ import {
 } from "@/lib/availability";
 import { sendConfirmation } from "@/lib/messages";
 import { normalizePhone } from "@/lib/utils";
+import { formatClinicHoursSummary } from "@/lib/constants";
 
 export const ODONTOBOT_SYSTEM_PROMPT = `Eres OdontoBot, el asistente virtual de Odontoclinic — Clínica Odontológica.
 
@@ -36,12 +37,7 @@ interface BotContext {
 }
 
 function formatHoursSummary(): string {
-  const lines = [
-    "Lunes a Viernes: 8:00 – 18:00",
-    "Sábado: 8:00 – 13:00",
-    "Domingo: Cerrado",
-  ];
-  return lines.join("\n");
+  return formatClinicHoursSummary();
 }
 
 async function getSettings() {
