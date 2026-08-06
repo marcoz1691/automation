@@ -26,28 +26,22 @@ async function main() {
     },
   });
 
-  const scheduleJson = DEFAULT_SETTINGS.hoursJson;
+  const dentistRecords = await Promise.all(
+    Object.entries(DENTISTS).map(([, info]) =>
+      prisma.dentist.create({
+        data: {
+          name: info.name,
+          specialty: info.specialty,
+          kind: info.kind,
+          schedule: info.schedule,
+        },
+      })
+    )
+  );
 
-  const dentist1 = await prisma.dentist.create({
-    data: {
-      name: DENTISTS.robertoZurita.name,
-      specialty: DENTISTS.robertoZurita.specialty,
-      schedule: scheduleJson,
-    },
-  });
-
-  const dentist2 = await prisma.dentist.create({
-    data: {
-      name: DENTISTS.robertoZuritaProano.name,
-      specialty: DENTISTS.robertoZuritaProano.specialty,
-      schedule: scheduleJson,
-    },
-  });
-
-  const dentistByKey = {
-    robertoZurita: dentist1,
-    robertoZuritaProano: dentist2,
-  };
+  const dentistByKey = Object.fromEntries(
+    Object.keys(DENTISTS).map((key, i) => [key, dentistRecords[i]])
+  ) as Record<keyof typeof DENTISTS, (typeof dentistRecords)[0]>;
 
   const services = await Promise.all([
     prisma.service.create({
@@ -167,7 +161,7 @@ async function main() {
   const appointmentData = [
     {
       patient: patients[0],
-      dentist: dentist1,
+      dentist: dentistByKey.robertoZurita,
       service: services[7],
       dayOffset: 0,
       hour: 9,
@@ -176,7 +170,7 @@ async function main() {
     },
     {
       patient: patients[1],
-      dentist: dentist2,
+      dentist: dentistByKey.robertoZuritaProano,
       service: services[0],
       dayOffset: 0,
       hour: 10,
@@ -185,7 +179,7 @@ async function main() {
     },
     {
       patient: patients[2],
-      dentist: dentist2,
+      dentist: dentistByKey.robertoZuritaProano,
       service: services[1],
       dayOffset: 0,
       hour: 11,
@@ -194,7 +188,7 @@ async function main() {
     },
     {
       patient: patients[3],
-      dentist: dentist1,
+      dentist: dentistByKey.robertoZurita,
       service: services[6],
       dayOffset: 0,
       hour: 15,
@@ -203,7 +197,7 @@ async function main() {
     },
     {
       patient: patients[0],
-      dentist: dentist2,
+      dentist: dentistByKey.robertoZuritaProano,
       service: services[5],
       dayOffset: 1,
       hour: 9,
@@ -212,7 +206,7 @@ async function main() {
     },
     {
       patient: patients[1],
-      dentist: dentist1,
+      dentist: dentistByKey.robertoZurita,
       service: services[2],
       dayOffset: 1,
       hour: 16,
@@ -221,7 +215,7 @@ async function main() {
     },
     {
       patient: patients[2],
-      dentist: dentist2,
+      dentist: dentistByKey.robertoZuritaProano,
       service: services[3],
       dayOffset: 2,
       hour: 10,
@@ -230,7 +224,7 @@ async function main() {
     },
     {
       patient: patients[3],
-      dentist: dentist1,
+      dentist: dentistByKey.robertoZurita,
       service: services[7],
       dayOffset: 3,
       hour: 11,
@@ -239,7 +233,7 @@ async function main() {
     },
     {
       patient: patients[0],
-      dentist: dentist2,
+      dentist: dentistByKey.robertoZuritaProano,
       service: services[0],
       dayOffset: -2,
       hour: 16,
@@ -248,7 +242,7 @@ async function main() {
     },
     {
       patient: patients[1],
-      dentist: dentist1,
+      dentist: dentistByKey.robertoZurita,
       service: services[1],
       dayOffset: -1,
       hour: 9,

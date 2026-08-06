@@ -36,6 +36,7 @@ model Dentist {
   id              String           @id @default(cuid())
   name            String
   specialty       String?
+  kind            String           @default("INTERNO")
   schedule        String
   active          Boolean          @default(true)
   appointments    Appointment[]

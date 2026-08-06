@@ -61,12 +61,13 @@ const createSchema = z.object({
   notes: z.string().optional(),
   reason: z.string().optional(),
   source: z.enum(["WEB", "RECEPCION", "IA", "WHATSAPP", "IMPORT"]).default("WEB"),
+  autoConfirm: z.boolean().optional(),
 });
 
 export async function POST(request: NextRequest) {
   try {
     const body = createSchema.parse(await request.json());
-    const { parseDateTime, isSlotAvailable, isWithinClinicHours } = await import("@/lib/availability");
+    const { parseDateTime, isSlotAvailable, isWithinDentistHours } = await import("@/lib/availability");
     const { sendConfirmation } = await import("@/lib/messages");
 
     const start = parseDateTime(body.date, body.time);
@@ -75,11 +76,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Servicio no encontrado" }, { status: 404 });
     }
 
+    const dentist = await prisma.dentist.findUnique({ where: { id: body.dentistId } });
+    if (!dentist) {
+      return NextResponse.json({ error: "Odontólogo no encontrado" }, { status: 404 });
+    }
+
     const end = new Date(start.getTime() + service.durationMin * 60 * 1000);
 
-    if (!isWithinClinicHours(start, end)) {
+    if (!isWithinDentistHours(start, end, dentist)) {
       return NextResponse.json(
-        { error: "Fuera de horario de atención (9:00–12:00 y 15:00–19:00)" },
+        { error: "Fuera del horario de atención del profesional seleccionado" },
         { status: 409 }
       );
     }
@@ -119,7 +125,8 @@ export async function POST(request: NextRequest) {
         source: body.source,
         notes: body.notes,
         reason: body.reason,
-        status: "PENDIENTE",
+        status: body.autoConfirm ? "CONFIRMADA" : "PENDIENTE",
+        confirmedAt: body.autoConfirm ? new Date() : undefined,
       },
       include: { patient: true, dentist: true, service: true },
     });

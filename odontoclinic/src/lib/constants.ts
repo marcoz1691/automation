@@ -47,10 +47,44 @@ export const DENTISTS = {
   robertoZurita: {
     name: "Dr. Roberto Zurita",
     specialty: "Rehabilitación oral",
+    kind: "INTERNO" as const,
+    schedule: "default",
   },
   robertoZuritaProano: {
     name: "Dr. Roberto Zurita Proaño",
     specialty: "Odontología general",
+    kind: "INTERNO" as const,
+    schedule: "default",
+  },
+  carmenVasquez: {
+    name: "Dra. Carmen Vásquez",
+    specialty: "Ortodoncia",
+    kind: "EXTERNO" as const,
+    schedule: JSON.stringify({
+      tuesday: { periods: [{ open: "15:00", close: "19:00" }] },
+      thursday: { periods: [{ open: "15:00", close: "19:00" }] },
+    }),
+  },
+  luisMendoza: {
+    name: "Dr. Luis Mendoza",
+    specialty: "Endodoncia",
+    kind: "EXTERNO" as const,
+    schedule: JSON.stringify({
+      wednesday: {
+        periods: [
+          { open: "09:00", close: "12:00" },
+          { open: "15:00", close: "19:00" },
+        ],
+      },
+    }),
+  },
+  pabloRivas: {
+    name: "Dr. Pablo Rivas",
+    specialty: "Cirugía oral y maxilofacial",
+    kind: "EXTERNO" as const,
+    schedule: JSON.stringify({
+      friday: { periods: [{ open: "09:00", close: "12:00" }] },
+    }),
   },
 } as const;
 
@@ -74,6 +108,8 @@ export const DEFAULT_SETTINGS = {
       "Trae tu cédula, historial dental previo si lo tienes, y lista de medicamentos actuales.",
     emergencies:
       "Atendemos urgencias dentales en horario de consulta. Para dolor agudo, llama o escríbenos por WhatsApp.",
+    externalSpecialists:
+      "Contamos con especialistas externos (ortodoncia, endodoncia, cirugía) que atienden en días específicos. Consulta disponibilidad al agendar.",
   }),
 };
 

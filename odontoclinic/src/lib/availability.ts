@@ -8,28 +8,10 @@ import {
   setMinutes,
   startOfDay,
   addDays,
-  getDay,
 } from "date-fns";
 import { es } from "date-fns/locale";
 import { prisma } from "./db";
-import { CLINIC_HOURS, type DaySchedule } from "./constants";
-
-const DAY_KEYS = [
-  "sunday",
-  "monday",
-  "tuesday",
-  "wednesday",
-  "thursday",
-  "friday",
-  "saturday",
-] as const;
-
-type DayKey = (typeof DAY_KEYS)[number];
-
-function getDaySchedule(date: Date): DaySchedule {
-  const key = DAY_KEYS[getDay(date)] as DayKey;
-  return CLINIC_HOURS[key];
-}
+import { getDentistDaySchedule, type DentistScheduleInfo } from "./dentist-schedule";
 
 function getSlotsForPeriod(
   date: Date,
@@ -66,9 +48,13 @@ export function getAvailableSlots(
   date: Date,
   durationMin: number,
   bookedRanges: { start: Date; end: Date }[],
+  dentist?: DentistScheduleInfo,
   slotInterval = 30
 ): string[] {
-  const schedule = getDaySchedule(date);
+  const schedule = dentist
+    ? getDentistDaySchedule(dentist, date)
+    : getDentistDaySchedule({ kind: "INTERNO", schedule: "default" }, date);
+
   if (!schedule) return [];
 
   return schedule.periods.flatMap((period) =>
@@ -91,7 +77,10 @@ export async function getAvailability(params: {
     ? await prisma.dentist.findMany({
         where: { id: params.dentistId, active: true },
       })
-    : await prisma.dentist.findMany({ where: { active: true } });
+    : await prisma.dentist.findMany({
+        where: { active: true },
+        orderBy: [{ kind: "asc" }, { name: "asc" }],
+      });
 
   const dayStart = startOfDay(date);
   const dayEnd = addDays(dayStart, 1);
@@ -111,18 +100,27 @@ export async function getAvailability(params: {
         end: a.datetimeEnd,
       }));
 
-      const slots = getAvailableSlots(date, service.durationMin, bookedRanges);
+      const slots = getAvailableSlots(
+        date,
+        service.durationMin,
+        bookedRanges,
+        dentist
+      );
 
       return {
         dentistId: dentist.id,
         dentistName: dentist.name,
         specialty: dentist.specialty,
+        kind: dentist.kind,
         slots,
       };
     })
   );
 
-  return { service, dentists: results };
+  return {
+    service,
+    dentists: results.filter((d) => d.slots.length > 0 || params.dentistId),
+  };
 }
 
 export async function isSlotAvailable(
@@ -165,8 +163,12 @@ export function canModifyAppointment(
   return isAfter(appointmentStart, deadline);
 }
 
-export function isWithinClinicHours(start: Date, end: Date): boolean {
-  const schedule = getDaySchedule(start);
+export function isWithinDentistHours(
+  start: Date,
+  end: Date,
+  dentist: DentistScheduleInfo
+): boolean {
+  const schedule = getDentistDaySchedule(dentist, start);
   if (!schedule) return false;
 
   const day = startOfDay(start);
@@ -177,4 +179,9 @@ export function isWithinClinicHours(start: Date, end: Date): boolean {
     const periodEnd = setMinutes(setHours(day, closeH), closeM);
     return start >= periodStart && end <= periodEnd;
   });
+}
+
+/** @deprecated use isWithinDentistHours */
+export function isWithinClinicHours(start: Date, end: Date): boolean {
+  return isWithinDentistHours(start, end, { kind: "INTERNO", schedule: "default" });
 }

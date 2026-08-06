@@ -96,7 +96,7 @@ export default function RecepcionPage() {
             href="/recepcion/nueva"
             className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2 text-sm font-medium text-white"
           >
-            <Plus size={16} /> Nueva cita
+            <Plus size={16} /> Agendar cita (asistente)
           </Link>
           <a
             href={`/api/export?date=${date}`}
