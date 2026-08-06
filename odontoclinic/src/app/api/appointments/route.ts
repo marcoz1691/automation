@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { startOfDay, endOfDay, parseISO } from "date-fns";
 import { z } from "zod";
+import { formatPhone, normalizePhone, formatZodIssues } from "@/lib/utils";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -43,13 +44,20 @@ export async function GET(request: NextRequest) {
 }
 
 const createSchema = z.object({
-  patientName: z.string().min(2),
-  phone: z.string().min(8),
-  email: z.string().email().optional().or(z.literal("")),
-  serviceId: z.string(),
-  dentistId: z.string(),
-  date: z.string(),
-  time: z.string(),
+  patientName: z.string().min(2, "mínimo 2 caracteres"),
+  phone: z
+    .string()
+    .min(8, "mínimo 8 dígitos")
+    .refine((v) => formatPhone(v).length >= 8, "ingresa un teléfono válido"),
+  email: z
+    .string()
+    .optional()
+    .transform((v) => (v?.trim() ? v.trim() : undefined))
+    .pipe(z.union([z.string().email("email no válido"), z.undefined()])),
+  serviceId: z.string().min(1),
+  dentistId: z.string().min(1),
+  date: z.string().min(1),
+  time: z.string().min(1),
   notes: z.string().optional(),
   reason: z.string().optional(),
   source: z.enum(["WEB", "RECEPCION", "IA", "WHATSAPP", "IMPORT"]).default("WEB"),
@@ -60,7 +68,6 @@ export async function POST(request: NextRequest) {
     const body = createSchema.parse(await request.json());
     const { parseDateTime, isSlotAvailable } = await import("@/lib/availability");
     const { sendConfirmation } = await import("@/lib/messages");
-    const { normalizePhone } = await import("@/lib/utils");
 
     const start = parseDateTime(body.date, body.time);
     const service = await prisma.service.findUnique({ where: { id: body.serviceId } });
@@ -114,7 +121,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(appointment, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.issues }, { status: 400 });
+      return NextResponse.json(
+        { error: formatZodIssues(error.issues), issues: error.issues },
+        { status: 400 }
+      );
     }
     console.error(error);
     return NextResponse.json({ error: "Error al crear cita" }, { status: 500 });

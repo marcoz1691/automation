@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { format, addDays } from "date-fns";
 import { Check } from "lucide-react";
+import { parseApiError, formatPhone } from "@/lib/utils";
 
 type Service = { id: string; name: string; durationMin: number; price?: number | null };
 type Dentist = { id: string; name: string; specialty?: string | null };
@@ -49,37 +50,57 @@ export function BookingWizard() {
   async function submitBooking() {
     setLoading(true);
     setError("");
+
+    const phoneDigits = formatPhone(phone);
+    if (phoneDigits.length < 8) {
+      setError("Teléfono: ingresa al menos 8 dígitos (ej. 0991234567)");
+      setLoading(false);
+      return;
+    }
+
+    if (email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setError("Email: formato no válido. Déjalo vacío si no tienes.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const selectedDentist =
         dentistId ||
         availability.find((a) => a.slots.includes(time))?.dentistId;
 
-      if (!selectedDentist) throw new Error("Selecciona odontólogo y horario");
+      if (!selectedDentist) {
+        setError("Selecciona odontólogo y horario");
+        setLoading(false);
+        return;
+      }
 
       const res = await fetch("/api/appointments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          patientName,
+          patientName: patientName.trim(),
           phone,
-          email,
+          email: email.trim() || undefined,
           serviceId,
           dentistId: selectedDentist,
           date,
           time,
-          reason,
+          reason: reason.trim() || undefined,
           source: "WEB",
         }),
       });
 
+      const data = await res.json();
+
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error ?? "Error al reservar");
+        setError(parseApiError(data, "Error al reservar"));
+        return;
       }
 
       setSuccess(true);
-    } catch (e) {
-      setError(String(e));
+    } catch {
+      setError("No se pudo conectar. Revisa tu internet e intenta de nuevo.");
     } finally {
       setLoading(false);
     }
@@ -238,10 +259,13 @@ export function BookingWizard() {
           />
           <input
             placeholder="Teléfono / WhatsApp *"
+            type="tel"
+            inputMode="tel"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             className="w-full rounded-xl border border-gray-200 px-4 py-3"
           />
+          <p className="text-xs text-secondary">Mínimo 8 dígitos. Ej: 0991234567</p>
           <input
             placeholder="Email (opcional)"
             type="email"
