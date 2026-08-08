@@ -103,9 +103,9 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   });
 });
 
-/* Checkout — WhatsApp (sin cuenta) o plataforma (Gumroad/Hotmart) */
+/* Checkout — Hotmart / WhatsApp fallback */
 function getCheckoutUrl(edition) {
-  const platformUrl = config.checkoutUrls[edition];
+  const platformUrl = config.checkoutUrls[edition]?.trim();
   if (config.paymentMode === 'platform' && platformUrl) {
     return platformUrl;
   }
@@ -114,21 +114,38 @@ function getCheckoutUrl(edition) {
   return `https://wa.me/${num}?text=${msg}`;
 }
 
+function isHotmartReady() {
+  return (
+    config.paymentMode === 'platform' &&
+    config.checkoutUrls.esencial?.trim() &&
+    config.checkoutUrls.completa?.trim()
+  );
+}
+
 document.querySelectorAll('[data-checkout]').forEach((btn) => {
   const edition = btn.dataset.checkout;
-  btn.href = getCheckoutUrl(edition);
-  if (config.paymentMode === 'whatsapp') {
-    btn.setAttribute('target', '_blank');
-    btn.setAttribute('rel', 'noopener noreferrer');
+  const url = getCheckoutUrl(edition);
+  btn.href = url;
+  btn.setAttribute('target', '_blank');
+  btn.setAttribute('rel', 'noopener noreferrer');
+
+  if (config.platform === 'hotmart' && config.checkoutUrls[edition]?.trim()) {
+    btn.dataset.hotmart = 'true';
   }
 });
 
-// Actualizar sticky CTA también
 const stickyBtn = document.querySelector('.sticky-cta .btn');
 if (stickyBtn) {
   stickyBtn.href = getCheckoutUrl('completa');
   stickyBtn.setAttribute('target', '_blank');
   stickyBtn.setAttribute('rel', 'noopener noreferrer');
+}
+
+/* Aviso si Hotmart aún no tiene links configurados */
+if (config.paymentMode === 'platform' && !isHotmartReady()) {
+  console.warn(
+    '[InmoSmart AI] Pega tus links de Hotmart en web/js/config.js → checkoutUrls'
+  );
 }
 
 /* Hide mobile CTA when pricing section visible */
