@@ -2,6 +2,8 @@
  * InmoSmart AI — Landing page interactions
  */
 
+import { config } from './config.js';
+
 const header = document.getElementById('header');
 const menuToggle = document.getElementById('menuToggle');
 const mobileNav = document.getElementById('mobileNav');
@@ -101,22 +103,33 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   });
 });
 
-/* Checkout placeholders — replace with Hotmart/Gumroad URLs */
-const CHECKOUT_URLS = {
-  esencial: '#precios',
-  completa: '#precios',
-};
+/* Checkout — WhatsApp (sin cuenta) o plataforma (Gumroad/Hotmart) */
+function getCheckoutUrl(edition) {
+  const platformUrl = config.checkoutUrls[edition];
+  if (config.paymentMode === 'platform' && platformUrl) {
+    return platformUrl;
+  }
+  const msg = encodeURIComponent(config.whatsappMessages[edition] || config.whatsappMessages.completa);
+  const num = config.whatsappNumber.replace(/\D/g, '');
+  return `https://wa.me/${num}?text=${msg}`;
+}
 
 document.querySelectorAll('[data-checkout]').forEach((btn) => {
-  btn.addEventListener('click', (e) => {
-    const key = btn.dataset.checkout;
-    const url = CHECKOUT_URLS[key];
-    if (url && url !== '#precios') {
-      e.preventDefault();
-      window.location.href = url;
-    }
-  });
+  const edition = btn.dataset.checkout;
+  btn.href = getCheckoutUrl(edition);
+  if (config.paymentMode === 'whatsapp') {
+    btn.setAttribute('target', '_blank');
+    btn.setAttribute('rel', 'noopener noreferrer');
+  }
 });
+
+// Actualizar sticky CTA también
+const stickyBtn = document.querySelector('.sticky-cta .btn');
+if (stickyBtn) {
+  stickyBtn.href = getCheckoutUrl('completa');
+  stickyBtn.setAttribute('target', '_blank');
+  stickyBtn.setAttribute('rel', 'noopener noreferrer');
+}
 
 /* Hide mobile CTA when pricing section visible */
 const pricingSection = document.getElementById('precios');
