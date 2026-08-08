@@ -37,16 +37,24 @@ web/
 └── assets/logo.svg     # Brand logo
 ```
 
-## Personalizar checkout
+## Hotmart (cuenta activa)
 
-En `js/main.js`, reemplaza `CHECKOUT_URLS` con tus enlaces de Hotmart/Gumroad:
+1. **Esencial:** sube `ebook/export/InmoSmart-AI-Ebook-Ecuador.pdf`  
+2. **Completa:** sube `ebook/export/InmoSmart-AI-Completa-Hotmart.zip`  
+3. Copia links en `js/config.js`:
 
 ```js
-const CHECKOUT_URLS = {
-  esencial: 'https://pay.hotmart.com/...',
-  completa: 'https://pay.hotmart.com/...',
-};
+checkoutUrls: {
+  esencial: 'https://pay.hotmart.com/TU_CODIGO',
+  completa: 'https://pay.hotmart.com/TU_CODIGO',
+},
 ```
+
+Guía completa: `ebook/marketing/hotmart-configuracion.md`
+
+## Personalizar checkout
+
+Edita `js/config.js` (modo `platform` + links Hotmart). Si falta un link, el botón usa WhatsApp como respaldo.
 
 ## Diseño
 
