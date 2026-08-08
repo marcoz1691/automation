@@ -24,10 +24,12 @@ El producto entrega valor accionable: checklists, plantillas, 110 prompts, guion
   /contenido         → Capítulos, introducción, conclusión, FAQ, glosario (19 archivos)
   /recursos          → Checklists, plantillas, 110 prompts, casos, mensajes WhatsApp
   /diseno            → Guía Canva, portada, identidad visual
-  /export            → PDF, HTML, paquete Canva, script de build
-  /adaptaciones      → Adaptaciones por país (México, etc.)
+  /marketing         → Página de ventas, precios, Hotmart, lanzamiento, redes
+  /export            → PDF, HTML, paquete Canva, script de build, ZIP Hotmart
+  /adaptaciones      → Ecuador (principal) + México, Colombia, Perú, Chile
   README.md          → Este archivo
   progreso.md        → Tabla de seguimiento del proyecto
+/web                 → Landing page premium (Vite)
 ```
 
 ## Índice del ebook
@@ -110,8 +112,9 @@ Detalle en `/marketing/estrategia-precios.md` y `/marketing/pagina-ventas.md`.
 | 8. Portada y marca | ✅ Completada |
 | 9. Estrategia de venta | ✅ Completada |
 | 10. Plan de lanzamiento | ✅ Completada |
+| 11. Landing web + Hotmart | ✅ Completada |
 
-**Pendiente antes de publicar:** Diseño visual refinado en Canva (opcional; PDF base ya generado), nombre de autor, reseñas reales, adaptación legal por país.
+**Pendiente:** Pegar links Hotmart en `web/js/config.js`, nombre de autor, reseñas reales.
 
 ## Exportar PDF y paquete Canva
 
@@ -125,25 +128,19 @@ Detalle en `/marketing/estrategia-precios.md` y `/marketing/pagina-ventas.md`.
 | `adaptaciones/peru.md` | Perú |
 | `adaptaciones/chile.md` | Chile |
 
-Guía: `adaptaciones/README.md`
-
 ```bash
 cd ebook/export
 npm install
 npm run build              # PDF Ecuador + PDF completo + Canva
 npm run build:ecuador      # Solo PDF versión Ecuador
-npm run build:canva        # Solo paquete Canva
 ```
 
-**Archivos generados:**
-- `export/InmoSmart-AI-Ebook-Ecuador.pdf` — **Recomendado para vender en Ecuador**
-- `export/InmoSmart-AI-Ebook-Completo.pdf` — Todos los países + anexos
-- `export/ebook-ecuador.md` / `ebook-completo.md` — Markdown combinado
-- `export/canva-paginas/` — Capítulos + `adaptacion-ecuador-canva.md`
-- `export/guia-importacion-canva.md` — Guía paso a paso para Canva
+**Archivos Hotmart:**
+- `export/InmoSmart-AI-Ebook-Ecuador.pdf` — Edición Esencial
+- `export/InmoSmart-AI-Completa-Hotmart.zip` — Edición Completa
 
 Consulta `progreso.md` para detalle archivo por archivo.
 
 ---
 
-*Última actualización: 5 de agosto de 2026*
+*Última actualización: 8 de agosto de 2026*
