@@ -6,6 +6,7 @@
   --color-accent: #C9A962;
   --color-accent-light: #dfc88a;
   --color-accent-glow: rgba(201, 169, 98, 0.35);
+  --color-accent-text: #8a6a1f; /* dorado legible sobre fondos claros (≥ 4.5:1) */
 
   /* Neutrals */
   --color-bg: #fafbfc;
@@ -13,13 +14,13 @@
   --color-bg-muted: #f4f6f8;
   --color-bg-dark: #0d1b2a;
   --color-text: #2d3748;
-  --color-text-muted: #718096;
+  --color-text-muted: #5a6474; /* ≥ 4.5:1 sobre #f4f6f8 (WCAG AA) */
   --color-text-inverse: #ffffff;
   --color-border: rgba(27, 58, 92, 0.12);
   --color-border-strong: rgba(27, 58, 92, 0.22);
 
   /* Semantic */
-  --color-success: #059669;
+  --color-success: #047857;
   --color-ecuador: #fcd116;
 
   /* Typography */

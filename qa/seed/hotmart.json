@@ -1,0 +1,14 @@
+{
+  "paymentMode": "platform",
+  "platform": "hotmart",
+  "checkoutUrls": {
+    "esencial": "https://pay.hotmart.com/QA-ESENCIAL-17",
+    "completa": "https://pay.hotmart.com/QA-COMPLETA-29"
+  },
+  "whatsappNumber": "593987654321",
+  "whatsappMessages": {
+    "esencial": "Hola, quiero comprar la *Edición Esencial* de InmoSmart AI (USD 17) en Hotmart. ¿Me ayudas?",
+    "completa": "Hola, quiero comprar la *Edición Completa* de InmoSmart AI (USD 29) en Hotmart. ¿Me ayudas?"
+  },
+  "whatsappSupport": true
+}

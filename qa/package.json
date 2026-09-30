@@ -1,0 +1,21 @@
+{
+  "name": "inmosmart-qa-loop",
+  "private": true,
+  "type": "module",
+  "description": "Loop de QA agéntico: riesgo → diseño → gate 1 → automatización → mutation gate 2 → ambientes → triage",
+  "scripts": {
+    "risk": "node scripts/risk-matrix.mjs",
+    "gate:cases": "node scripts/ac-coverage-gate.mjs",
+    "gate:automation": "node scripts/ac-coverage-gate.mjs --automation",
+    "test:e2e": "playwright test",
+    "test:scope": "node scripts/run-scope.mjs",
+    "triage": "node scripts/triage.mjs",
+    "guard:healing": "node scripts/guard-healing.mjs",
+    "perf": "k6 run perf/smoke.js",
+    "loop": "node scripts/loop.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "1.56.1"
+  }
+}

@@ -240,7 +240,7 @@
   margin-bottom: var(--space-4);
 }
 
-.compare-col--before h3 { color: #dc2626; }
+.compare-col--before h3 { color: #b91c1c; }
 .compare-col--after h3 { color: var(--color-success); }
 
 .compare-col li {

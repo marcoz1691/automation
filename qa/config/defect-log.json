@@ -1,0 +1,19 @@
+{
+  "$comment": "Bugs reales confirmados por el triage (07). Cada entrada sube la probabilidad de los archivos del AC en la siguiente matriz de riesgo: el loop aprende en cada ciclo.",
+  "defects": [
+    {
+      "ac": "AC-08",
+      "date": "2026-09-30",
+      "test": "Sin violaciones serias de accesibilidad",
+      "signature": "AC-08|Error: serious · color-contrast: Elements must meet minimum color contrast ratio thresholds (N nodos) — .stat:nth-child(N) > .stat__label, .stat:nth-child(N) > ",
+      "jira": null
+    },
+    {
+      "ac": "AC-07",
+      "date": "2026-09-30",
+      "test": "Los enlaces internos llevan a su sección",
+      "signature": "AC-07|Error: expect(received).toBe(expected) // Object.is equality",
+      "jira": null
+    }
+  ]
+}

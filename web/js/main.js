@@ -3,6 +3,10 @@
  */
 
 import { config } from './config.js';
+import { getCheckoutUrl as buildCheckoutUrl, isHotmartReady as checkHotmartReady } from './checkout.js';
+
+const getCheckoutUrl = (edition) => buildCheckoutUrl(config, edition);
+const isHotmartReady = () => checkHotmartReady(config);
 
 const header = document.getElementById('header');
 const menuToggle = document.getElementById('menuToggle');
@@ -97,31 +101,14 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     const target = document.querySelector(id);
     if (!target) return;
     e.preventDefault();
-    const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 72;
+    // --header-height está en rem: parseInt('4.5rem') daba 4 px y la sección quedaba tapada por el header.
+    const offset = header.offsetHeight || 72;
     const top = target.getBoundingClientRect().top + window.scrollY - offset;
     window.scrollTo({ top, behavior: 'smooth' });
   });
 });
 
 /* Checkout — Hotmart / WhatsApp fallback */
-function getCheckoutUrl(edition) {
-  const platformUrl = config.checkoutUrls[edition]?.trim();
-  if (config.paymentMode === 'platform' && platformUrl) {
-    return platformUrl;
-  }
-  const msg = encodeURIComponent(config.whatsappMessages[edition] || config.whatsappMessages.completa);
-  const num = config.whatsappNumber.replace(/\D/g, '');
-  return `https://wa.me/${num}?text=${msg}`;
-}
-
-function isHotmartReady() {
-  return (
-    config.paymentMode === 'platform' &&
-    config.checkoutUrls.esencial?.trim() &&
-    config.checkoutUrls.completa?.trim()
-  );
-}
-
 document.querySelectorAll('[data-checkout]').forEach((btn) => {
   const edition = btn.dataset.checkout;
   const url = getCheckoutUrl(edition);

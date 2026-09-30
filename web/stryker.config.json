@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "$comment": "05 · Mutation testing (gate 2): si un mutante sobrevive, hay un test que no protege nada. Umbral de corte: 70 %.",
+  "testRunner": "vitest",
+  "mutate": ["js/checkout.js"],
+  "reporters": ["clear-text", "progress", "html", "json"],
+  "htmlReporter": { "fileName": "../qa/reports/mutation/index.html" },
+  "jsonReporter": { "fileName": "../qa/reports/mutation/mutation.json" },
+  "thresholds": { "high": 90, "low": 70, "break": 70 },
+  "coverageAnalysis": "perTest",
+  "tempDirName": ".stryker-tmp"
+}
