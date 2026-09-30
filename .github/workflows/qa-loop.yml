@@ -1,0 +1,135 @@
+name: QA loop
+
+on:
+  pull_request:
+    paths: ['web/**', 'qa/**', '.github/workflows/qa-loop.yml']
+  workflow_dispatch:
+
+concurrency:
+  group: qa-loop-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  QA_BASE_REF: origin/${{ github.base_ref || 'main' }}
+  COMPOSE_PROJECT: qa-pr-${{ github.event.pull_request.number || github.run_id }}
+
+jobs:
+  # 01 · Riesgo y alcance  +  03 · Gate 1 (diseño y trazabilidad)
+  risk-and-cases:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm, cache-dependency-path: qa/package-lock.json }
+      - run: npm ci
+        working-directory: qa
+      - name: 01 · Matriz de riesgo
+        run: npm run risk && cat reports/risk-matrix.md >> "$GITHUB_STEP_SUMMARY"
+        working-directory: qa
+      - name: 03 · Gate 1 — 100 % de los AC con casos (y negativos)
+        run: npm run gate:cases
+        working-directory: qa
+      - name: 03 · Gate 1 — cada escenario automatizado
+        run: npm run gate:automation
+        working-directory: qa
+      - if: always()
+        run: cat qa/reports/gate1-*.md >> "$GITHUB_STEP_SUMMARY" || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: qa-risk-and-cases, path: qa/reports/ }
+
+  # 05 · Review + mutation testing (gate 2)
+  mutation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm, cache-dependency-path: web/package-lock.json }
+      - run: npm ci
+        working-directory: web
+      - run: npm run test:coverage
+        working-directory: web
+      - name: 05 · Gate 2 — mutation score ≥ 70 %
+        run: npm run test:mutation
+        working-directory: web
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: qa-mutation, path: qa/reports/mutation/ }
+
+  # 06 · Ambiente efímero por PR  →  04 · UI/a11y, k6, ZAP  →  07 · Triage
+  e2e:
+    needs: risk-and-cases
+    runs-on: ubuntu-latest
+    env:
+      BASE_URL: http://localhost:4173
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm, cache-dependency-path: qa/package-lock.json }
+      - run: npm ci
+        working-directory: qa
+      - name: 06 · Levantar ambiente efímero (docker compose, aislado por PR)
+        run: docker compose -p "$COMPOSE_PROJECT" -f qa/docker-compose.qa.yml up -d --wait
+      - run: npx playwright install --with-deps chromium
+        working-directory: qa
+      - name: 01 · Alcance por riesgo
+        run: npm run risk
+        working-directory: qa
+      - name: 04 · Playwright UI + a11y (solo el alcance del riesgo)
+        id: e2e
+        run: npm run test:scope
+        working-directory: qa
+      - uses: grafana/setup-k6-action@v1
+        if: always()
+      - name: 04 · Performance (AC-09)
+        id: perf
+        if: always()
+        uses: grafana/run-k6-action@v1
+        env: { K6_NO_USAGE_REPORT: 'true' }
+        with: { path: qa/perf/smoke.js }
+      - name: 04 · Seguridad — ZAP baseline (AC-10)
+        id: zap
+        if: always()
+        run: |
+          mkdir -p qa/reports && chmod 777 qa/reports
+          docker run --rm --network host -v "$PWD/qa/reports:/zap/wrk:rw" ghcr.io/zaproxy/zaproxy:stable \
+            zap-baseline.py -t "$BASE_URL" -J zap.json -r zap.html -I
+          node qa/security/zap-gate.mjs qa/reports/zap.json
+      - name: 07 · Triage y RCA
+        if: failure() && steps.e2e.outcome == 'failure'
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_PROJECT: ${{ vars.JIRA_PROJECT }}
+        run: |
+          npm run triage -- ${JIRA_BASE_URL:+--jira} || true
+          cat reports/triage.md >> "$GITHUB_STEP_SUMMARY"
+        working-directory: qa
+      - name: 06 · Destruir ambiente
+        if: always()
+        run: |
+          docker compose -p "$COMPOSE_PROJECT" -f qa/docker-compose.qa.yml logs --no-color > qa/reports/env.log 2>&1 || true
+          docker compose -p "$COMPOSE_PROJECT" -f qa/docker-compose.qa.yml down -v --remove-orphans
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qa-e2e-evidence
+          path: |
+            qa/reports/
+            qa/playwright-report/
+            qa/test-results/
+
+  # Regla de oro: el self-healing solo toca locators, nunca aserciones.
+  healing-guard:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Guard de self-healing
+        env:
+          QA_HEALING: ${{ startsWith(github.head_ref, 'heal/') || contains(github.event.pull_request.labels.*.name, 'self-healing') }}
+        run: node qa/scripts/guard-healing.mjs && cat qa/reports/guard-healing.md >> "$GITHUB_STEP_SUMMARY"

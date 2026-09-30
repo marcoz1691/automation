@@ -1,0 +1,6 @@
+# Regla de oro del loop de QA: todo cambio en tests, locators o criterios de aceptación
+# (incluidos los PR de self-healing) requiere aprobación humana.
+# Activa "Require review from Code Owners" en la protección de la rama main.
+/qa/tests/        @marcoz1691
+/qa/requirements/ @marcoz1691
+/qa/features/     @marcoz1691

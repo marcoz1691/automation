@@ -11,7 +11,7 @@
     "test:scope": "node scripts/run-scope.mjs",
     "triage": "node scripts/triage.mjs",
     "guard:healing": "node scripts/guard-healing.mjs",
-    "perf": "k6 run perf/smoke.js",
+    "perf": "cd .. && k6 run qa/perf/smoke.js",
     "loop": "node scripts/loop.mjs"
   },
   "devDependencies": {

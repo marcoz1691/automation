@@ -12,6 +12,7 @@ Repositorio del ebook **Vende tu Propiedad Más Rápido con Inteligencia Artific
 |---------|-----------|
 | [`/ebook`](ebook/) | Ebook completo (Markdown), PDF, recursos, marketing, adaptaciones por país |
 | [`/web`](web/) | Landing page premium (Vite + HTML/CSS/JS) |
+| [`/qa`](qa/) | Loop de QA agéntico: riesgo, casos Gherkin, Playwright, mutation testing, ambientes efímeros y triage |
 
 ---
 

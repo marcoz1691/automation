@@ -1,0 +1,23 @@
+# 06 · Ambiente efímero por PR. Un proyecto de compose por PR = red y volúmenes aislados:
+#   docker compose -p qa-pr-123 -f qa/docker-compose.qa.yml up -d --wait
+#   docker compose -p qa-pr-123 -f qa/docker-compose.qa.yml down -v --remove-orphans
+# Sirve la landing con Vite (sin empaquetar) para que los tests puedan inyectar los datos seed de qa/seed/.
+services:
+  web:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ../web:/app
+      - web_node_modules:/app/node_modules
+    command: sh -c "npm ci --no-audit --no-fund && npx vite --host 0.0.0.0 --port 4173 --strictPort"
+    ports:
+      - "${QA_PORT:-4173}:4173"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:4173/"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 20s
+
+volumes:
+  web_node_modules:
