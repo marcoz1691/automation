@@ -13,15 +13,15 @@ const covers = [
 });
 <span class="cm">// ✓ answers 24/7</span>`, badge:'AI Engineer'},
  {file:'gig2-webapp.png', glow:'rgba(80,140,255,.35)', tag:'WEB &amp; MOBILE APPS',
-  title:'I will build your custom <span>web or mobile app</span>',
-  list:['Web apps, dashboards &amp; SaaS','Mobile-friendly &amp; modern design','Login, payments &amp; databases','TypeScript, clean &amp; tested'],
+  title:'I will build your modern <span>web or mobile app</span>',
+  list:['Websites, web apps &amp; SaaS','Mobile apps for iOS &amp; Android','AI features built in','Modern design, fast &amp; tested'],
   code:`<span class="k">const</span> app: <span class="f">App</span> = <span class="f">createApp</span>({
   pages: [<span class="s">"home"</span>, <span class="s">"dashboard"</span>],
   auth: <span class="k">true</span>,
   ai: <span class="s">"assistant"</span>,
   mobile: <span class="k">true</span>
 });
-app.<span class="f">launch</span>(); <span class="cm">// 🚀</span>`, badge:'From $40'},
+app.<span class="f">launch</span>(); <span class="cm">// 🚀</span>`, badge:'AI-powered'},
  {file:'gig3-automation.png', glow:'rgba(29,191,115,.35)', tag:'BUSINESS AUTOMATION',
   title:'I will <span>automate</span> your repetitive tasks',
   list:['Python &amp; Playwright bots','Excel, email &amp; data workflows','Web scraping &amp; API integrations','Save hours every week'],

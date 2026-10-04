@@ -31,6 +31,34 @@ const pages = [
 <div class="st"><div class="n">2</div><h3>I design &amp; build</h3><p>Custom chatbot or agent, trained on your information and tools.</p></div>
 <div class="st"><div class="n">3</div><h3>Tested &amp; delivered</h3><p>Checked for accurate answers, documented and ready to use.</p></div></div>
 <div class="name">by <b>Marco Zurita</b> · AI Engineer</div></div>`},
+
+{file:'gig2-web-process.png', html:`<style>${base.replace('rgba(170,90,255,.38)','rgba(80,140,255,.38)')}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.st{background:rgba(255,255,255,.06);border:2px solid #2a3a5a;border-radius:22px;padding:30px 24px;height:330px}
+.n{width:58px;height:58px;border-radius:50%;background:#1dbf73;color:#05130c;font-weight:800;font-size:28px;display:flex;align-items:center;justify-content:center;margin-bottom:22px}
+.st h3{font-size:28px;margin-bottom:12px}.st p{font-size:21px;line-height:1.45;color:#c9d6e8}
+</style><div class="c"><div class="tag">HOW IT WORKS</div>
+<h1>From idea to <span>launch</span></h1>
+<div class="steps">
+<div class="st"><div class="n">1</div><h3>Your idea</h3><p>Tell me your goal, users and references.</p></div>
+<div class="st"><div class="n">2</div><h3>Design</h3><p>Modern, clean screens for web and mobile.</p></div>
+<div class="st"><div class="n">3</div><h3>Build + AI</h3><p>Fast app with smart AI features built in.</p></div>
+<div class="st"><div class="n">4</div><h3>Test &amp; launch</h3><p>Fully tested, deployed and ready for users.</p></div></div>
+<div class="name">by <b>Marco Zurita</b> · AI Engineer</div></div>`},
+{file:'gig2-web-features.png', html:`<style>${base.replace('rgba(170,90,255,.38)','rgba(80,140,255,.38)')}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.f{background:rgba(255,255,255,.06);border:2px solid #2a3a5a;border-radius:20px;padding:26px 26px;height:150px}
+.f b{display:block;font-size:28px;color:#1dbf73;margin-bottom:10px}.f p{font-size:21px;line-height:1.4;color:#d6e2f0}
+</style><div class="c"><div class="tag">WHAT YOU CAN GET</div>
+<h1>Next-generation apps, <span>powered by AI</span></h1>
+<div class="grid">
+<div class="f"><b>AI assistant</b><p>Chat that helps your users 24/7</p></div>
+<div class="f"><b>Smart search</b><p>Users find anything instantly</p></div>
+<div class="f"><b>Dashboards</b><p>Your data, clear and in real time</p></div>
+<div class="f"><b>Mobile apps</b><p>iOS and Android ready</p></div>
+<div class="f"><b>Payments &amp; login</b><p>Secure accounts and checkout</p></div>
+<div class="f"><b>Tested quality</b><p>10+ years of QA experience</p></div></div>
+<div class="name">by <b>Marco Zurita</b> · AI Engineer</div></div>`},
 ];
 (async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:1280,height:769}});
 for(const x of pages){await p.setContent('<!doctype html><meta charset="utf-8">'+x.html);await p.screenshot({path:x.file});}await b.close();})();
