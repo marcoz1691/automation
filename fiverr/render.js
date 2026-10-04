@@ -4,7 +4,7 @@ const tpl = fs.readFileSync('cover.html','utf8');
 const covers = [
  {file:'gig1-automation.png', glow:'rgba(29,191,115,.35)', tag:'BUSINESS AUTOMATION',
   title:'I will <span>automate</span> your repetitive tasks',
-  list:['Python &amp; Selenium bots','Excel, email &amp; data workflows','Web scraping &amp; API integrations','Save hours every week'],
+  list:['Python &amp; Playwright bots','Excel, email &amp; data workflows','Web scraping &amp; API integrations','Save hours every week'],
   code:`<span class="cm"># runs every morning</span>
 <span class="k">def</span> <span class="f">daily_report</span>():
   data = scrape(<span class="s">"site.com"</span>)
@@ -14,8 +14,8 @@ const covers = [
 <span class="cm"># ✓ 3 hours saved/day</span>`, badge:'Fast delivery'},
  {file:'gig2-webapp.png', glow:'rgba(80,140,255,.35)', tag:'WEB DEVELOPMENT',
   title:'I will build your custom <span>web app</span>',
-  list:['Landing pages &amp; dashboards','Responsive, fast &amp; modern','Forms, payments &amp; databases','Clean code, ready to launch'],
-  code:`<span class="k">const</span> app = <span class="f">createApp</span>({
+  list:['Landing pages &amp; dashboards','Responsive, fast &amp; modern','Forms, payments &amp; databases','TypeScript, clean &amp; tested'],
+  code:`<span class="k">const</span> app: <span class="f">App</span> = <span class="f">createApp</span>({
   pages: [<span class="s">"home"</span>, <span class="s">"dashboard"</span>],
   auth: <span class="k">true</span>,
   payments: <span class="s">"stripe"</span>,
