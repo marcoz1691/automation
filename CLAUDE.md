@@ -13,3 +13,5 @@ Ebook + landing + Hotmart. Mercado principal: Ecuador. Idioma: español.
 ## Procedimientos específicos (skills en `.claude/skills/`)
 
 `ebook-build`, `ebook-review`, `landing-web`, `hotmart-delivery`. Los detalles viven ahí, no aquí.
+
+Subagente de solo lectura: `ebook-reviewer` (carga el skill `ebook-review` en su propio contexto). Los subagentes no heredan skills: se declaran con `skills:` en `.claude/agents/`.
